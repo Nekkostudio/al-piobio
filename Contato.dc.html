@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; padding: 0; background: #0c0b0a; }
+    * { box-sizing: border-box; }
+    a { color: #c9a668; text-decoration: none; }
+    a:hover { color: #e0c088; }
+    .field { transition: border-color .2s ease; }
+    .field:focus { outline: none; border-color: #c9a668 !important; }
+    .field::placeholder { color: #6f6a5c; }
+    .submit-btn { transition: background .2s ease, border-color .2s ease; }
+    .submit-btn:hover { background: #e0c088 !important; border-color: #e0c088 !important; }
+  </style>
+</helmet>
+
+<div style="min-height: 100vh; width: 100%; background: #0c0b0a; display: flex; align-items: flex-start; justify-content: center; padding: 48px 16px;">
+  <div style="width: 100%; max-width: 430px; display: flex; flex-direction: column; align-items: center; gap: 28px;">
+
+    <div style="text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; width: 100%; margin-top: 24px;">
+      <h1 style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 34px; line-height: 1.2; color: #f2ede3;">
+        Fale Comigo
+      </h1>
+      <div style="width: 54px; height: 2px; background: #c9a668;"></div>
+      <p style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 13px; line-height: 1.7; letter-spacing: 0.5px; color: #b7ac96; max-width: 320px;">
+        Envie sua mensagem e retornarei em breve.
+      </p>
+    </div>
+
+    <form style="width: 100%; display: flex; flex-direction: column; gap: 14px;" onSubmit="{{ handleSubmit }}">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <label style="font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; color: #b7ac96; text-transform: uppercase;">Nome</label>
+        <input type="text" required="true" placeholder="Seu nome completo" value="{{ name }}" onChange="{{ onNameChange }}" class="field" style="width: 100%; border: 1px solid #4a4030; border-radius: 4px; padding: 13px 16px; background: #171512; color: #f2ede3; font-family: 'Montserrat', sans-serif; font-size: 14px;"/>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <label style="font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; color: #b7ac96; text-transform: uppercase;">E-mail</label>
+        <input type="email" required="true" placeholder="seuemail@exemplo.com" value="{{ email }}" onChange="{{ onEmailChange }}" class="field" style="width: 100%; border: 1px solid #4a4030; border-radius: 4px; padding: 13px 16px; background: #171512; color: #f2ede3; font-family: 'Montserrat', sans-serif; font-size: 14px;"/>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <label style="font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; color: #b7ac96; text-transform: uppercase;">Assunto</label>
+        <input type="text" required="true" placeholder="Sobre o que é sua mensagem?" value="{{ subject }}" onChange="{{ onSubjectChange }}" class="field" style="width: 100%; border: 1px solid #4a4030; border-radius: 4px; padding: 13px 16px; background: #171512; color: #f2ede3; font-family: 'Montserrat', sans-serif; font-size: 14px;"/>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <label style="font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; color: #b7ac96; text-transform: uppercase;">Mensagem</label>
+        <textarea required="true" placeholder="Escreva sua mensagem aqui..." value="{{ message }}" onChange="{{ onMessageChange }}" rows="5" class="field" style="width: 100%; border: 1px solid #4a4030; border-radius: 4px; padding: 13px 16px; background: #171512; color: #f2ede3; font-family: 'Montserrat', sans-serif; font-size: 14px; resize: vertical;"></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" style="width: 100%; border: 1px solid #c9a668; border-radius: 4px; padding: 15px 18px; background: #c9a668; color: #171512; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; margin-top: 8px;">
+        Enviar Mensagem
+      </button>
+    </form>
+
+    <div style="text-align: center; padding-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+      <span style="font-family: 'Montserrat', sans-serif; font-size: 13px; color: #d8d2c4;">Alípio Marcus Laca de Oliveira</span>
+      <span style="font-family: 'Montserrat', sans-serif; font-size: 11px; color: #7d7768;">Todos os direitos reservados.</span>
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { name: '', email: '', subject: '', message: '' };
+
+  renderVals() {
+    return {
+      name: this.state.name,
+      email: this.state.email,
+      subject: this.state.subject,
+      message: this.state.message,
+      onNameChange: (e) => this.setState({ name: e.target.value }),
+      onEmailChange: (e) => this.setState({ email: e.target.value }),
+      onSubjectChange: (e) => this.setState({ subject: e.target.value }),
+      onMessageChange: (e) => this.setState({ message: e.target.value }),
+      handleSubmit: (e) => {
+        e.preventDefault();
+        const { name, email, subject, message } = this.state;
+        const body = `Nome: ${name}\nE-mail: ${email}\n\n${message}`;
+        window.location.href = `mailto:Alipiooliveira@outlook.com?subject=${encodeURIComponent(subject || 'Contato pelo site')}&body=${encodeURIComponent(body)}`;
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>
